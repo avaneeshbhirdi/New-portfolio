@@ -3,6 +3,9 @@
  * Handles: Custom Cursor, Three.js Background, GSAP Animations
  */
 
+import { db } from './firebase-config.js';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 // --- Custom Cursor ---
 class Cursor {
     constructor() {
@@ -289,198 +292,161 @@ class AboutScene {
 }
 
 // --- Auth & Admin System ---
+// --- Auth & Admin System (Clerk Integration) ---
 class AuthManager {
     constructor() {
         this.elements = {
             loginBtn: document.getElementById('login-btn'),
             signupBtn: document.getElementById('signup-btn'),
-            authModal: document.getElementById('auth-modal'),
-            closeAuthBtn: document.getElementById('close-auth'),
-            authBackdrop: document.getElementById('auth-backdrop'),
-            authForm: document.getElementById('auth-form'),
-            authTitle: document.getElementById('auth-title'),
-            authSwitchText: document.getElementById('auth-switch-text'),
-            authSwitchBtn: document.getElementById('auth-switch-btn'),
 
+            // Profile & Admin
             profileSection: document.getElementById('profile-section'),
             closeProfileBtn: document.getElementById('close-profile'),
             logoutBtn: document.getElementById('logout-btn'),
 
-            adminDashboard: document.getElementById('admin-dashboard'),
-            adminLogoutBtn: document.getElementById('admin-logout-btn'),
-
             navContainer: document.querySelector('nav div.hidden.md\\:flex'),
+
+            // Profile Data Elements
+            userName: document.querySelector('#profile-section h3'),
+            userEmail: document.querySelector('#profile-section p.text-gray-400'),
+            userAvatar: document.querySelector('#profile-section .rounded-full'),
         };
 
-        this.state = {
-            isLogin: true,
-            user: null // null, 'user', 'admin'
-        };
+        this.clerk = null;
+        this.initClerk();
+    }
 
-        if (this.elements.loginBtn) {
-            this.initEvents();
-        }
+    async initClerk() {
+        // Wait for Clerk to be available
+        const checkClerk = setInterval(async () => {
+            if (window.Clerk) {
+                clearInterval(checkClerk);
+                this.clerk = window.Clerk;
+                try {
+                    await this.clerk.load();
+                    this.initEvents();
+                    this.updateUI();
+
+                    // Listen for auth changes
+                    this.clerk.addListener((payload) => {
+                        this.updateUI();
+                    });
+                } catch (err) {
+                    console.error('Error loading Clerk:', err);
+                }
+            }
+        }, 100);
     }
 
     initEvents() {
-        // Open Auth Modal (Login)
-        this.elements.loginBtn.addEventListener('click', () => this.openAuth(true));
+        // Login
+        if (this.elements.loginBtn) {
+            this.elements.loginBtn.addEventListener('click', () => {
+                this.clerk.openSignIn();
+            });
+        }
 
-        // Open Auth Modal (Signup)
-        this.elements.signupBtn.addEventListener('click', () => this.openAuth(false));
-
-        // Close Auth Modal
-        this.elements.closeAuthBtn.addEventListener('click', () => this.closeAuth());
-        this.elements.authBackdrop.addEventListener('click', () => this.closeAuth());
-
-        // Toggle Login/Signup Mode
-        this.elements.authSwitchBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggleAuthMode();
-        });
-
-        // Handle Form Submit
-        this.elements.authForm.addEventListener('submit', (e) => this.handleAuth(e));
-
-        // Close Profile
-        this.elements.closeProfileBtn.addEventListener('click', () => {
-            this.elements.profileSection.classList.add('hidden');
-            this.elements.profileSection.classList.remove('flex');
-            document.body.style.overflow = '';
-        });
+        // Signup
+        if (this.elements.signupBtn) {
+            this.elements.signupBtn.addEventListener('click', () => {
+                this.clerk.openSignUp();
+            });
+        }
 
         // Logout
-        this.elements.logoutBtn.addEventListener('click', () => this.logout());
-        this.elements.adminLogoutBtn.addEventListener('click', () => this.logout());
-    }
+        if (this.elements.logoutBtn) {
+            this.elements.logoutBtn.addEventListener('click', async () => {
+                await this.clerk.signOut();
+                this.closeProfile();
+            });
+        }
 
-    openAuth(isLogin) {
-        this.state.isLogin = isLogin;
-        this.updateAuthUI();
-        this.elements.authModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    closeAuth() {
-        this.elements.authModal.classList.add('hidden');
-        document.body.style.overflow = '';
-    }
-
-    toggleAuthMode() {
-        this.state.isLogin = !this.state.isLogin;
-        this.updateAuthUI();
-    }
-
-    updateAuthUI() {
-        if (this.state.isLogin) {
-            this.elements.authTitle.textContent = 'LOGIN';
-            this.elements.authSwitchText.textContent = "Don't have an account?";
-            this.elements.authSwitchBtn.textContent = 'Sign Up';
-        } else {
-            this.elements.authTitle.textContent = 'CREATE ACCOUNT';
-            this.elements.authSwitchText.textContent = "Already have an account?";
-            this.elements.authSwitchBtn.textContent = 'Login';
+        // Close Profile
+        if (this.elements.closeProfileBtn) {
+            this.elements.closeProfileBtn.addEventListener('click', () => this.closeProfile());
         }
     }
 
-    handleAuth(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        // Simple Mock Auth Logic
-        if (username === 'admin' && password === 'admin123') {
-            this.state.user = 'admin';
-            this.openAdminDashboard();
-        } else {
-            this.state.user = 'user';
-            this.openProfile();
-        }
-
-        this.closeAuth();
-        this.updateNavState();
-    }
-
-    openProfile() {
-        this.elements.profileSection.classList.remove('hidden');
-        this.elements.profileSection.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
-
-    openAdminDashboard() {
-        this.elements.adminDashboard.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    logout() {
-        this.state.user = null;
-        this.elements.profileSection.classList.add('hidden');
-        this.elements.profileSection.classList.remove('flex');
-        this.elements.adminDashboard.classList.add('hidden');
-        document.body.style.overflow = '';
-        this.updateNavState();
-
-        // Reset form
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-    }
-
-    updateNavState() {
-        if (this.state.user) {
-            // Logged In State
-            this.elements.loginBtn.classList.add('hidden');
-            this.elements.signupBtn.classList.add('hidden');
-
-            // Allow clicking previous buttons if needed, or add a profile trigger
-            // For now, let's add a "My Profile" button dynamically if not exists
-            if (!document.getElementById('nav-profile-btn')) {
-                const btn = document.createElement('button');
-                btn.id = 'nav-profile-btn';
-                btn.className = 'text-sm font-medium hover:text-cyan transition-colors ml-4';
-                btn.textContent = this.state.user === 'admin' ? 'ADMIN' : 'PROFILE';
-                btn.addEventListener('click', () => {
-                    if (this.state.user === 'admin') this.openAdminDashboard();
-                    else this.openProfile();
-                });
-                this.elements.navContainer.appendChild(btn);
-            }
-        } else {
-            // Logged Out State
+    updateUI() {
+        if (!this.clerk.user) {
+            // Logged Out
             this.elements.loginBtn.classList.remove('hidden');
             this.elements.signupBtn.classList.remove('hidden');
 
             const profileBtn = document.getElementById('nav-profile-btn');
             if (profileBtn) profileBtn.remove();
+        } else {
+            // Logged In
+            this.elements.loginBtn.classList.add('hidden');
+            this.elements.signupBtn.classList.add('hidden');
+
+            // Add Profile Button if needed
+            if (!document.getElementById('nav-profile-btn')) {
+                const btn = document.createElement('button');
+                btn.id = 'nav-profile-btn';
+                btn.className = 'text-sm font-medium hover:text-cyan transition-colors ml-4 uppercase';
+                // Check if admin (simple check by email for now or metadata)
+                const isAdmin = this.checkIfAdmin();
+                btn.textContent = isAdmin ? 'ADMIN' : 'PROFILE';
+
+                btn.addEventListener('click', () => {
+                    if (isAdmin) {
+                        // For now we just open profile, user can implement full admin later
+                        // or show the admin dashboard
+                        const adminDash = document.getElementById('admin-dashboard');
+                        if (adminDash) {
+                            adminDash.classList.remove('hidden');
+                            // Add close listener for admin dash if not present
+                            const closeAdmin = document.getElementById('admin-logout-btn');
+                            if (closeAdmin) {
+                                closeAdmin.onclick = () => {
+                                    adminDash.classList.add('hidden');
+                                };
+                            }
+                        }
+                    } else {
+                        this.openProfile();
+                    }
+                });
+                this.elements.navContainer.appendChild(btn);
+            }
         }
+    }
+
+    checkIfAdmin() {
+        // Example admin check
+        return this.clerk.user?.publicMetadata?.role === 'admin';
+    }
+
+    openProfile() {
+        const user = this.clerk.user;
+        if (!user) return;
+
+        // Populate Profile Data
+        if (this.elements.userName) this.elements.userName.textContent = user.fullName || user.username;
+        if (this.elements.userEmail) this.elements.userEmail.textContent = user.primaryEmailAddress?.emailAddress;
+
+        if (this.elements.userAvatar) {
+            this.elements.userAvatar.innerHTML = `<img src="${user.imageUrl}" class="w-full h-full rounded-full object-cover">`;
+        }
+
+        this.elements.profileSection.classList.remove('hidden');
+        this.elements.profileSection.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeProfile() {
+        this.elements.profileSection.classList.add('hidden');
+        this.elements.profileSection.classList.remove('flex');
+        document.body.style.overflow = '';
     }
 }
 
 // --- Project Manager (Admin & Rendering) ---
 class ProjectManager {
     constructor() {
-        this.projects = [
-            {
-                id: 1,
-                title: 'NEBULA FINANCE',
-                tags: 'DeFi Platform, WebGL, React',
-                color: 'cyan',
-                image: 'https://images.unsplash.com/photo-1481487484168-9b930d5b20f8?auto=format&fit=crop&q=80&w=1600'
-            },
-            {
-                id: 2,
-                title: 'CYBER SHOWROOM',
-                tags: '3D Commerce, Three.js, GSAP',
-                color: 'purple',
-                image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1600'
-            },
-            {
-                id: 3,
-                title: 'AI DASHBOARD',
-                tags: 'Data Viz, D3.js, Next.js',
-                color: 'cyan',
-                image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1600'
-            }
-        ];
+        this.projects = [];
+
 
         this.elements = {
             container: document.getElementById('projects-container'),
@@ -508,8 +474,24 @@ class ProjectManager {
     }
 
     init() {
-        this.renderPublicProjects();
+        this.fetchProjects();
         this.initAdminEvents();
+    }
+
+    async fetchProjects() {
+        try {
+            const querySnapshot = await getDocs(collection(db, "projects"));
+            this.projects = [];
+            querySnapshot.forEach((doc) => {
+                this.projects.push({ id: doc.id, ...doc.data() });
+            });
+            this.renderPublicProjects();
+            if (!this.elements.adminOverview.classList.contains('hidden')) {
+                // Or just always have data ready for admin
+            }
+        } catch (e) {
+            console.error("Error fetching projects:", e);
+        }
     }
 
     renderPublicProjects() {
@@ -611,46 +593,63 @@ class ProjectManager {
         this.elements.form.reset();
     }
 
-    saveProject() {
+    async saveProject() {
         const newProject = {
-            id: Number(this.elements.inputId.value) || Date.now(), // Use existing ID or generate new
             title: this.elements.inputTitle.value,
             tags: this.elements.inputTags.value,
             color: this.elements.inputColor.value,
             image: this.elements.inputImage.value || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1600'
         };
 
-        if (this.currentEditId) {
-            // Update existing
-            const index = this.projects.findIndex(p => p.id === this.currentEditId);
-            if (index !== -1) {
-                this.projects[index] = newProject;
-            }
-        } else {
-            // Add new
-            this.projects.push(newProject);
-        }
-
-        this.renderPublicProjects();
-        this.renderAdminList();
-
-        // Visual feedback
         const btn = this.elements.form.querySelector('button[type="submit"]');
         const originalText = btn.textContent;
-        btn.textContent = 'Saved!';
-        setTimeout(() => btn.textContent = originalText, 1000);
+        btn.textContent = 'Saving...';
+        btn.disabled = true;
+
+        try {
+            if (this.currentEditId) {
+                // Update existing
+                await updateDoc(doc(db, "projects", this.currentEditId), newProject);
+            } else {
+                // Add new
+                await addDoc(collection(db, "projects"), newProject);
+            }
+
+            await this.fetchProjects();
+            this.renderAdminList();
+
+            btn.textContent = 'Saved!';
+        } catch (e) {
+            console.error("Error saving project:", e);
+            btn.textContent = 'Error!';
+        }
+
+        setTimeout(() => {
+            btn.textContent = 'Save Project'; // Hardcoded fallback or restore original
+            btn.disabled = false;
+        }, 1500);
 
         if (!this.currentEditId) {
             this.clearForm();
         }
     }
 
-    deleteProject() {
+    async deleteProject() {
         if (!this.currentEditId) return;
-        this.projects = this.projects.filter(p => p.id !== this.currentEditId);
-        this.renderPublicProjects();
-        this.renderAdminList();
-        this.clearForm();
+
+        const btn = this.elements.deleteBtn;
+        btn.textContent = 'Deleting...';
+
+        try {
+            await deleteDoc(doc(db, "projects", this.currentEditId));
+            await this.fetchProjects();
+            this.renderAdminList();
+            this.clearForm();
+        } catch (e) {
+            console.error("Error deleting:", e);
+            alert("Failed to delete project");
+        }
+        btn.textContent = 'Delete';
     }
 }
 
