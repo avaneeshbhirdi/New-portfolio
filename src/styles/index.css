@@ -41,7 +41,12 @@ body {
 }
 
 /* Typography Utilities */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
 }
 
@@ -69,9 +74,17 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Animations */
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .animate-float {
@@ -81,6 +94,19 @@ h1, h2, h3, h4, h5, h6 {
 /* Hide cursor for custom cursor implementation */
 body.custom-cursor-active {
   cursor: none;
+}
+
+/* Text Outline */
+.text-outline {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.02);
+  /* Slight fill fallback */
+  transition: all 0.3s ease;
+}
+
+.text-outline:hover {
+  -webkit-text-stroke: 2px var(--color-accent-cyan);
+  color: rgba(0, 240, 255, 0.1);
 }
 
 /* Loader */
@@ -93,4 +119,10 @@ body.custom-cursor-active {
   justify-content: center;
   align-items: center;
   transition: opacity 0.5s ease-out;
+}
+
+/* Prevent Flash of Unstyled Content */
+.reveal-text,
+nav {
+  opacity: 0;
 }

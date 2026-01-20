@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avneesh | Creative Developer & Designer</title>
     <meta name="description" content="Portfolio of a creative developer specializing in immersive web experiences.">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -47,23 +49,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
+
 <body class="bg-bg text-white overflow-x-hidden antialiased selection:bg-cyan selection:text-black">
 
     <!-- Custom Cursor -->
-    <div id="cursor" class="fixed w-6 h-6 border border-cyan rounded-full pointer-events-none z-[9999] mix-blend-difference transition-transform duration-100 hidden md:block"></div>
-    <div id="cursor-dot" class="fixed w-1 h-1 bg-cyan rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block"></div>
+    <div id="cursor"
+        class="fixed w-6 h-6 border border-cyan rounded-full pointer-events-none z-[9999] mix-blend-difference transition-transform duration-100 hidden md:block">
+    </div>
+    <div id="cursor-dot"
+        class="fixed w-1 h-1 bg-cyan rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block">
+    </div>
 
     <!-- Background Canvas -->
     <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-60"></canvas>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
-        <a href="#" class="text-2xl font-heading font-bold tracking-tighter hover:text-cyan transition-colors">AVNEESH</a>
-        
-        <div class="hidden md:flex gap-8 items-center bg-black/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">
+    <nav
+        class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl flex justify-between items-center px-8 py-4 bg-black/40 backdrop-blur-md rounded-full border border-white/5 shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-cyan/30">
+        <a href="#"
+            class="text-xl font-heading font-bold tracking-tighter hover:text-cyan transition-colors">AVANEESH</a>
+
+        <div class="hidden md:flex gap-8 items-center">
             <a href="#work" class="text-sm font-medium hover:text-cyan transition-colors">WORK</a>
             <a href="#about" class="text-sm font-medium hover:text-cyan transition-colors">ABOUT</a>
             <a href="#contact" class="text-sm font-medium hover:text-cyan transition-colors">CONTACT</a>
+            <div class="w-px h-4 bg-white/20 mx-2"></div>
+            <button id="login-btn" class="text-sm font-medium hover:text-cyan transition-colors">LOGIN</button>
+            <button id="signup-btn"
+                class="text-sm font-medium bg-cyan/10 text-cyan hover:bg-cyan hover:text-black px-5 py-2 rounded-full transition-all duration-300">SIGN
+                UP</button>
         </div>
 
         <button class="md:hidden text-white hover:text-cyan">
@@ -72,33 +86,61 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative pt-20">
+    <section id="hero" class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative pt-32">
         <div class="absolute top-1/4 right-0 w-96 h-96 bg-cyan/20 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-bg to-transparent z-10"></div>
 
-        <div class="max-w-5xl z-10">
-            <p class="text-cyan font-mono mb-4 reveal-text">HELLO, I AM AVNEESH</p>
-            <h1 class="text-6xl md:text-8xl lg:text-9xl font-heading font-bold leading-none tracking-tight mb-8">
-                <span class="block reveal-text">CREATIVE</span>
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan to-purple reveal-text">DEVELOPER</span>
-            </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed reveal-text delay-200">
-                Crafting immersive digital experiences that blend artistic vision with technical precision. 
-                I build the future of the web.
-            </p>
-            
-            <div class="flex gap-6 reveal-text delay-300">
-                <a href="#work" class="px-8 py-4 bg-cyan text-black font-bold font-heading hover:bg-white transition-colors duration-300 rounded-sm">
-                    VIEW WORK
-                </a>
-                <a href="#contact" class="px-8 py-4 border border-white/20 hover:border-cyan hover:text-cyan transition-colors duration-300 rounded-sm font-heading">
-                    CONTACT ME
-                </a>
+        <div class=" w-full z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 reveal-text">
+                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    <span class="text-xs font-mono text-gray-300">OPEN TO WORK</span>
+                </div>
+
+                <h1 class="text-7xl md:text-8xl lg:text-9xl font-heading font-bold leading-[0.9] tracking-tighter mb-8">
+                    <span class="block text-outline reveal-text cursor-default select-none">DESIGN</span>
+                    <span class="block text-white reveal-text">ENGINEER</span>
+                </h1>
+
+                <p
+                    class="text-gray-400 text-lg max-w-lg mb-10 leading-relaxed reveal-text delay-200 border-l-2 border-cyan/30 pl-6">
+                    I build digital products that refuse to be boring. Blending advanced WebGL interactions with
+                    purposeful design systems.
+                </p>
+
+                <div class="flex flex-wrap gap-6 reveal-text delay-300">
+                    <a href="#work"
+                        class="group relative px-8 py-4 bg-white text-black font-bold font-heading overflow-hidden rounded-sm transition-all hover:scale-105">
+                        <div
+                            class="absolute inset-0 w-full h-full bg-cyan transition-transform duration-300 -translate-x-full group-hover:translate-x-0 mix-blend-difference">
+                        </div>
+                        <span class="relative z-10 group-hover:text-white transition-colors">LATEST WORK</span>
+                    </a>
+                    <a href="#contact"
+                        class="px-8 py-4 border border-white/20 hover:border-cyan hover:text-cyan transition-colors duration-300 rounded-sm font-heading backdrop-blur-sm">
+                        CONTACT
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Content: 3D Visual -->
+            <div class="relative w-full h-[400px] lg:h-[600px] reveal-text delay-500">
+                <!-- Decorative Elements -->
+                <div class="absolute top-10 right-10 text-right opacity-50 font-mono text-xs z-10 pointer-events-none">
+                    <p>COORD: 34.0522° N</p>
+                    <p>SYS: ONLINE</p>
+                </div>
+
+                <!-- The Hero Canvas will be injected here or overlays this area -->
+                <div id="hero-3d-container" class="w-full h-full absolute inset-0 z-0"></div>
             </div>
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+        <div
+            class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
             <span class="text-xs font-mono tracking-widest">SCROLL</span>
             <i data-lucide="chevron-down" class="w-4 h-4"></i>
         </div>
@@ -111,48 +153,8 @@
             <span class="font-mono text-gray-500 hidden md:inline-block">2023 — 2026</span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-            <!-- Project 1 -->
-            <article class="group cursor-pointer">
-                <div class="aspect-video bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative mb-6">
-                    <img src="https://images.unsplash.com/photo-1481487484168-9b930d5b20f8?auto=format&fit=crop&q=80&w=1600" alt="Project 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-2xl font-heading font-bold mb-2 group-hover:text-cyan transition-colors">NEBULA FINANCE</h3>
-                        <p class="text-gray-400 text-sm">DeFi Platform • WebGL • React</p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Project 2 -->
-            <article class="group cursor-pointer mt-0 md:mt-20">
-                <div class="aspect-video bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative mb-6">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1600" alt="Project 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-2xl font-heading font-bold mb-2 group-hover:text-purple transition-colors">CYBER SHOWROOM</h3>
-                        <p class="text-gray-400 text-sm">3D Commerce • Three.js • GSAP</p>
-                    </div>
-                </div>
-            </article>
-
-             <!-- Project 3 -->
-             <article class="group cursor-pointer">
-                <div class="aspect-video bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative mb-6">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1600" alt="Project 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100">
-                    <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-2xl font-heading font-bold mb-2 group-hover:text-cyan transition-colors">AI DASHBOARD</h3>
-                        <p class="text-gray-400 text-sm">Data Viz • D3.js • Next.js</p>
-                    </div>
-                </div>
-            </article>
+        <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+            <!-- Dynamically Populated via JS -->
         </div>
     </section>
 
@@ -162,7 +164,9 @@
             <div>
                 <h2 class="text-4xl md:text-6xl font-heading font-bold mb-8">ABOUT ME</h2>
                 <p class="text-lg text-gray-400 mb-6 leading-relaxed">
-                    I am a multidisciplinary developer with a passion for creating interfaces that bridge the gap between design and technology. With a background in both computer science and visual arts, I approach every project with a dual mindset: how it looks and how it works.
+                    I am a multidisciplinary developer with a passion for creating interfaces that bridge the gap
+                    between design and technology. With a background in both computer science and visual arts, I
+                    approach every project with a dual mindset: how it looks and how it works.
                 </p>
                 <p class="text-lg text-gray-400 mb-8 leading-relaxed">
                     My goal is to build the web of tomorrow—interactive, immersive, and intelligent.
@@ -170,15 +174,25 @@
 
                 <h3 class="text-xl font-heading font-bold mb-4 text-white">TECH STACK</h3>
                 <div class="flex flex-wrap gap-3">
-                    <span class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">JavaScript (ES6+)</span>
-                    <span class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">React / Next.js</span>
-                    <span class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">Three.js / WebGL</span>
-                    <span class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">Tailwind CSS</span>
-                    <span class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">GSAP</span>
-                    <span class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">Node.js</span>
+                    <span
+                        class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">JavaScript
+                        (ES6+)</span>
+                    <span
+                        class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">React
+                        / Next.js</span>
+                    <span
+                        class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">Three.js
+                        / WebGL</span>
+                    <span
+                        class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">Tailwind
+                        CSS</span>
+                    <span
+                        class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">GSAP</span>
+                    <span
+                        class="px-4 py-2 border border-white/10 rounded-full text-sm hover:border-cyan hover:text-cyan transition-colors cursor-default">Node.js</span>
                 </div>
             </div>
-            
+
             <div class="relative h-96 md:h-auto rounded-xl overflow-hidden glass flex items-center justify-center">
                 <!-- 3D Shape Container -->
                 <div id="about-canvas-container" class="w-full h-full absolute inset-0"></div>
@@ -193,13 +207,14 @@
     <!-- Contact Section -->
     <section id="contact" class="py-32 px-6 md:px-20 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-t from-cyan/5 to-transparent pointer-events-none"></div>
-        
+
         <div class="max-w-4xl mx-auto text-center relative z-10">
             <h2 class="text-5xl md:text-7xl font-heading font-bold mb-8">LET'S WORK TOGETHER.</h2>
             <p class="text-xl text-gray-400 mb-12">Available for freelance opportunities and innovative projects.</p>
-            
-            <a href="mailto:hello@avneesh.dev" class="inline-block text-4xl md:text-6xl font-heading font-bold hover:text-cyan transition-colors border-b-2 border-white/20 hover:border-cyan pb-2">
-                hello@avneesh.dev
+
+            <a href="mailto:hello@avaneesh.dev"
+                class="inline-block text-4xl md:text-6xl font-heading font-bold hover:text-cyan transition-colors border-b-2 border-white/20 hover:border-cyan pb-2">
+                hello@avaneesh.dev
             </a>
 
             <div class="flex justify-center gap-8 mt-16">
@@ -210,10 +225,263 @@
         </div>
     </section>
 
-    <script type="module" src="./src/scripts/main.js"></script>
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center">
+        <!-- Backdrop -->
+        <div id="auth-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-md bg-bg border border-white/10 rounded-2xl p-8 glass z-10 m-4">
+            <button id="close-auth" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x"></i>
+            </button>
+
+            <h2 id="auth-title" class="text-2xl font-heading font-bold mb-6 text-center">LOGIN</h2>
+
+            <form id="auth-form" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Username</label>
+                    <input type="text" id="username"
+                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan transition-colors"
+                        placeholder="Enter username">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Password</label>
+                    <input type="password" id="password"
+                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan transition-colors"
+                        placeholder="Enter password">
+                </div>
+                <button type="submit"
+                    class="w-full bg-cyan text-black font-bold py-3 rounded-lg hover:bg-white transition-colors mt-2">
+                    CONTINUE
+                </button>
+            </form>
+
+            <div class="mt-6 text-center text-sm text-gray-400">
+                <span id="auth-switch-text">Don't have an account?</span>
+                <button id="auth-switch-btn" class="text-cyan hover:underline ml-1">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Details Modal/Overlay -->
+    <div id="profile-section" class="fixed inset-0 z-[100] hidden bg-bg items-center justify-center overflow-y-auto">
+        <div class="w-full max-w-4xl mx-auto p-6 md:p-20">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-4xl font-heading font-bold">MY PROFILE</h2>
+                <button id="close-profile" class="text-gray-400 hover:text-white flex items-center gap-2">
+                    <span>CLOSE</span>
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Sidebar -->
+                <div class="md:col-span-1 space-y-6">
+                    <div class="glass p-6 rounded-2xl text-center">
+                        <div
+                            class="w-24 h-24 bg-gradient-to-br from-cyan to-purple rounded-full mx-auto mb-4 flex items-center justify-center text-3xl font-bold">
+                            A</div>
+                        <h3 class="text-xl font-bold mb-1">User Name</h3>
+                        <p class="text-sm text-gray-400 mb-4">Member</p>
+                        <button id="logout-btn"
+                            class="w-full border border-white/10 rounded-lg py-2 hover:bg-white/5 text-sm transition-colors">Log
+                            Out</button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="md:col-span-2 space-y-8">
+                    <div class="glass p-8 rounded-2xl">
+                        <h3 class="text-2xl font-bold mb-6">Account Settings</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                                <div>
+                                    <p class="font-medium">Email Notifications</p>
+                                    <p class="text-sm text-gray-400">Receive updates about your portfolio activity</p>
+                                </div>
+                                <div class="w-12 h-6 bg-cyan/20 rounded-full relative cursor-pointer">
+                                    <div class="absolute right-1 top-1 w-4 h-4 bg-cyan rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                                <div>
+                                    <p class="font-medium">Public Profile</p>
+                                    <p class="text-sm text-gray-400">Make your profile visible to everyone</p>
+                                </div>
+                                <div class="w-12 h-6 bg-cyan/20 rounded-full relative cursor-pointer">
+                                    <div class="absolute right-1 top-1 w-4 h-4 bg-cyan rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Section -->
+    <div id="admin-dashboard" class="fixed inset-0 z-[100] hidden bg-bg overflow-y-auto">
+        <div class="flex min-h-screen">
+            <!-- Admin Sidebar -->
+            <div class="w-64 border-r border-white/10 p-6 hidden md:block">
+                <div class="mb-10">
+                    <h2 class="text-xl font-heading font-bold text-cyan">ADMIN PANEL</h2>
+                </div>
+                <nav class="space-y-2">
+                    <button
+                        class="w-full text-left px-4 py-3 bg-white/5 rounded-lg text-white font-medium">Dashboard</button>
+                    <button
+                        class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Projects</button>
+                    <button
+                        class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Content</button>
+                    <button
+                        class="w-full text-left px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Settings</button>
+                </nav>
+                <div class="mt-auto pt-10">
+                    <button id="admin-logout-btn"
+                        class="w-full border border-white/10 rounded-lg py-2 hover:bg-white/5 text-sm transition-colors text-gray-400 hover:text-white">Exit
+                        Admin</button>
+                </div>
+            </div>
+
+            <!-- Admin Content -->
+            <div class="flex-1 p-6 md:p-12">
+                <div class="flex justify-between items-center mb-12">
+                    <h2 class="text-3xl font-heading font-bold">Dashboard Overview</h2>
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm text-gray-400">Logged in as Admin</span>
+                        <div class="w-8 h-8 bg-purple rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div id="admin-overview" class="block">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <div class="glass p-6 rounded-xl">
+                            <p class="text-gray-400 text-sm mb-2">Total Views</p>
+                            <h3 class="text-3xl font-bold">12,450</h3>
+                            <span class="text-cyan text-sm">+15% this week</span>
+                        </div>
+                        <div class="glass p-6 rounded-xl">
+                            <p class="text-gray-400 text-sm mb-2">Project Clicks</p>
+                            <h3 class="text-3xl font-bold">843</h3>
+                            <span class="text-purple text-sm">+5% this week</span>
+                        </div>
+                        <div class="glass p-6 rounded-xl">
+                            <p class="text-gray-400 text-sm mb-2">Messages</p>
+                            <h3 class="text-3xl font-bold">24</h3>
+                            <span class="text-green-400 text-sm">3 new today</span>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity / Controls -->
+                    <div class="glass p-8 rounded-2xl">
+                        <h3 class="text-xl font-bold mb-6">Website Controls</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <button
+                                class="p-4 border border-white/10 rounded-lg hover:border-cyan/50 hover:bg-cyan/5 transition-all text-left group">
+                                <h4 class="font-bold mb-1 group-hover:text-cyan">Edit Hero Section</h4>
+                                <p class="text-sm text-gray-400">Update main headline and description</p>
+                            </button>
+                            <button id="admin-manage-projects-btn"
+                                class="p-4 border border-white/10 rounded-lg hover:border-cyan/50 hover:bg-cyan/5 transition-all text-left group">
+                                <h4 class="font-bold mb-1 group-hover:text-cyan">Manage Projects</h4>
+                                <p class="text-sm text-gray-400">Add, remove or edit portfolio items</p>
+                            </button>
+                            <button
+                                class="p-4 border border-white/10 rounded-lg hover:border-cyan/50 hover:bg-cyan/5 transition-all text-left group">
+                                <h4 class="font-bold mb-1 group-hover:text-cyan">Update Skills</h4>
+                                <p class="text-sm text-gray-400">Modify displayed technologies</p>
+                            </button>
+                            <button
+                                class="p-4 border border-white/10 rounded-lg hover:border-cyan/50 hover:bg-cyan/5 transition-all text-left group">
+                                <h4 class="font-bold mb-1 group-hover:text-cyan">SEO Settings</h4>
+                                <p class="text-sm text-gray-400">Configure meta tags and descriptions</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Editor Section (Hidden by default) -->
+                <div id="admin-projects-editor" class="hidden">
+                    <div class="flex items-center gap-4 mb-8">
+                        <button id="back-to-dashboard" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                            <i data-lucide="arrow-left"></i>
+                        </button>
+                        <h2 class="text-2xl font-bold">Manage Projects</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Project List -->
+                        <div class="lg:col-span-1 glass p-6 rounded-xl h-[600px] overflow-y-auto">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-bold">Projects List</h3>
+                                <button id="add-new-project-btn"
+                                    class="text-xs bg-cyan text-black font-bold px-3 py-1 rounded hover:bg-white transition-colors">
+                                    + NEW
+                                </button>
+                            </div>
+                            <div id="admin-project-list" class="space-y-3">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Edit Form -->
+                        <div class="lg:col-span-2 glass p-6 rounded-xl">
+                            <h3 id="form-title" class="font-bold mb-6">Edit Project</h3>
+                            <form id="project-form" class="space-y-4">
+                                <input type="hidden" id="project-id">
+                                <div>
+                                    <label class="block text-sm text-gray-400 mb-1">Project Title</label>
+                                    <input type="text" id="project-title"
+                                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan focus:outline-none"
+                                        required>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm text-gray-400 mb-1">Tags (comma separated)</label>
+                                        <input type="text" id="project-tags"
+                                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-400 mb-1">Accent Color</label>
+                                        <select id="project-color"
+                                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan focus:outline-none">
+                                            <option value="cyan">Cyan</option>
+                                            <option value="purple">Purple</option>
+                                            <option value="green">Green</option>
+                                            <option value="orange">Orange</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm text-gray-400 mb-1">Image URL</label>
+                                    <input type="url" id="project-image"
+                                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan focus:outline-none"
+                                        placeholder="https://...">
+                                </div>
+
+                                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-white/10">
+                                    <button type="button" id="delete-project-btn"
+                                        class="px-4 py-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors hidden">Delete</button>
+                                    <button type="submit"
+                                        class="px-6 py-2 bg-cyan text-black font-bold rounded-lg hover:bg-white transition-colors">Save
+                                        Project</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/scripts/main.js" defer></script>
     <script>
         // Init Icons
         lucide.createIcons();
     </script>
 </body>
+
 </html>
