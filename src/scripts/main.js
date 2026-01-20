@@ -14,6 +14,10 @@ class Cursor {
 
         if (!this.cursor || !this.cursorDot) return;
 
+        // Hide initially
+        this.cursor.style.opacity = '0';
+        this.cursorDot.style.opacity = '0';
+
         document.addEventListener('mousemove', (e) => {
             this.target.x = e.clientX;
             this.target.y = e.clientY;
@@ -27,6 +31,32 @@ class Cursor {
 
         // Hover effects
         this.addHoverListeners();
+
+        // Visibility Logic (Hero Only)
+        this.initVisibilityControl();
+    }
+
+    initVisibilityControl() {
+        const hero = document.getElementById('hero');
+        if (!hero) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Show custom cursor
+                    document.body.classList.add('custom-cursor-active');
+                    this.cursor.style.opacity = '1';
+                    this.cursorDot.style.opacity = '1';
+                } else {
+                    // Hide custom cursor, show default
+                    document.body.classList.remove('custom-cursor-active');
+                    this.cursor.style.opacity = '0';
+                    this.cursorDot.style.opacity = '0';
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% of hero is visible
+
+        observer.observe(hero);
     }
 
     addHoverListeners() {
